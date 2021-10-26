@@ -34,6 +34,13 @@ namespace ShoppingCart.Controllers
             return NoContent();
         }
 
+        [HttpDelete("item/{id}")]
+        public async Task<ActionResult> RemoveItemFromCart(int id)
+        {
+            await _cartService.RemoveItemFromCart(id);
+            return NoContent();
+        }
+
         [HttpPost("{id}/cancel")]
         public async Task<ActionResult> CancelCart(int id)
         {
