@@ -10,6 +10,8 @@ namespace ShoppingCart.AutoMapper
         {
             CreateMap<CartItem, CartItemShortDetails>();
             CreateMap<Cart, CartDetails>();
+            CreateMap<CartItemRequest, CartItem>()
+                .ForMember(dest => dest.Id, opts => opts.Ignore());
         }
     }
 }
