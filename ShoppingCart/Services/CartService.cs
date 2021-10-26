@@ -20,18 +20,17 @@ namespace ShoppingCart.Services
             _dbContext = dbContext;
         }
 
-        public async Task AddItemToCart(CartItemRequest cartItemRequest)
+        public async Task AddItemToCart(int id, CartItemRequest cartItemRequest)
         {
-            int cartId = cartItemRequest.CartId;
             CartItem item = _mapper.Map<CartItem>(cartItemRequest);
             item.CreatedBy = "placeholder";
             item.TimeCreated = DateTime.UtcNow;
 
             Cart cart = await _dbContext
                 .Carts
-                .SingleOrDefaultAsync(cart => cart.Id == cartId);
+                .SingleOrDefaultAsync(cart => cart.Id == id);
             if (cart == null)
-                throw new EntityNotFoundException(cartId);
+                throw new EntityNotFoundException(id);
 
             cart.CartItems.Add(item);
 

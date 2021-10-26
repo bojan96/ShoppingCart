@@ -27,10 +27,10 @@ namespace ShoppingCart.Controllers
             return details;
         }
 
-        [HttpPost]
-        public async Task<ActionResult> AddItemToCart([FromBody]CartItemRequest item)
+        [HttpPost("{id}/item")]
+        public async Task<ActionResult> AddItemToCart(int id, [FromBody]CartItemRequest item)
         {
-            await _cartService.AddItemToCart(item);
+            await _cartService.AddItemToCart(id, item);
             return NoContent();
         }
 

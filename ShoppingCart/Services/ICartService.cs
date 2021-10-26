@@ -6,7 +6,7 @@ namespace ShoppingCart.Services
     public interface ICartService
     {
         Task<CartDetails> GetCartDetails(int id);
-        Task AddItemToCart(CartItemRequest cartItemRequest);
+        Task AddItemToCart(int cartId, CartItemRequest cartItemRequest);
         Task CancelCart(int cartId);
 
     }
