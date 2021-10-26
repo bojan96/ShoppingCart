@@ -24,7 +24,7 @@ namespace ShoppingCart.Controllers
         public async Task<ActionResult<CartDetails>> GetCartOverview(int id)
         {
             CartDetails details = await _cartService.GetCartDetails(id);
-            return details != null ? details : NotFound();
+            return details;
         }
 
         [HttpPost]

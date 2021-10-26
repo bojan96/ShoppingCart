@@ -26,7 +26,9 @@ namespace ShoppingCart.Services
             item.CreatedBy = "placeholder";
             item.TimeCreated = DateTime.UtcNow;
 
-            Cart cart = await _dbContext.Carts.SingleOrDefaultAsync(cart => cart.Id == cartId);
+            Cart cart = await _dbContext
+                .Carts
+                .SingleOrDefaultAsync(cart => cart.Id == cartId);
             if (cart == null)
                 throw new EntityNotFoundException(cartId);
 
@@ -37,9 +39,12 @@ namespace ShoppingCart.Services
 
         public async Task<CartDetails> GetCartDetails(int id)
         {
-            Cart cart = await _dbContext.Carts.Include(cart => cart.CartItems).SingleOrDefaultAsync(cart => cart.Id == id);
+            Cart cart = await _dbContext
+                .Carts
+                .Include(cart => cart.CartItems)
+                .SingleOrDefaultAsync(cart => cart.Id == id);
             if (cart == null)
-                return null;
+                throw new EntityNotFoundException(id);
 
             return _mapper.Map<CartDetails>(cart);
         }
