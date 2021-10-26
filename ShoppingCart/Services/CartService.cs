@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using ShoppingCart.Exceptions;
 using ShoppingCart.Models;
 using ShoppingCart.Models.Entity;
+using System;
 using System.Threading.Tasks;
 
 namespace ShoppingCart.Services
@@ -17,9 +19,20 @@ namespace ShoppingCart.Services
             _dbContext = dbContext;
         }
 
-        public Task AddItemToCart(int cartId, CartItemRequest cartItemRequest)
+        public async Task AddItemToCart(CartItemRequest cartItemRequest)
         {
-            throw new System.NotImplementedException();
+            int cartId = cartItemRequest.CartId;
+            CartItem item = _mapper.Map<CartItem>(cartItemRequest);
+            item.CreatedBy = "placeholder";
+            item.TimeCreated = DateTime.UtcNow;
+
+            Cart cart = await _dbContext.Carts.SingleOrDefaultAsync(cart => cart.Id == cartId);
+            if (cart == null)
+                throw new EntityNotFoundException(cartId);
+
+            cart.CartItems.Add(item);
+
+            await _dbContext.SaveChangesAsync();
         }
 
         public async Task<CartDetails> GetCartDetails(int id)
