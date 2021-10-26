@@ -83,6 +83,9 @@ namespace ShoppingCart.Services
                 if (cart == null)
                     throw new EntityNotFoundException(id);
 
+                if (cart.Status == CartStatus.Submitted)
+                    throw new CartSubmitFailedException("Cart already submitted");
+
                 CartDetails cartDetails = _mapper.Map<CartDetails>(cart);
                 await _cartProcessService.ProcessCart(cartDetails);
                 cart.Status = CartStatus.Submitted;

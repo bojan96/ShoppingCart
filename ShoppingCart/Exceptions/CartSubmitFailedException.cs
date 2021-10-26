@@ -6,5 +6,7 @@ namespace ShoppingCart.Exceptions
     {
         public CartSubmitFailedException(string message, Exception inner) 
             : base(message, inner) { }
+        public CartSubmitFailedException(string message)
+            : base(message) { }
     }
 }
