@@ -1,0 +1,16 @@
+﻿using System;
+
+namespace ShoppingCart.Models.Entity
+{
+    public class CartItem
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public DateTime TimeCreated { get; set; }
+        public DateTime TimeUpdated { get; set; }
+        public string CreatedBy { get; set; }
+        // No need for foreign key due to navigation property
+        public Cart Cart { get; set; }
+    }
+}
