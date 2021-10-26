@@ -33,5 +33,12 @@ namespace ShoppingCart.Controllers
             await _cartService.AddItemToCart(item);
             return NoContent();
         }
+
+        [HttpPost("{id}/cancel")]
+        public async Task<ActionResult> CancelCart(int id)
+        {
+            await _cartService.CancelCart(id);
+            return NoContent();
+        }
     }
 }

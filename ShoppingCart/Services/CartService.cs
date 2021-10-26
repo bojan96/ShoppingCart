@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using ShoppingCart.Exceptions;
 using ShoppingCart.Models;
 using ShoppingCart.Models.Entity;
+using ShoppingCart.Models.Enums;
 using System;
 using System.Threading.Tasks;
 
@@ -36,7 +37,6 @@ namespace ShoppingCart.Services
 
             await _dbContext.SaveChangesAsync();
         }
-
         public async Task<CartDetails> GetCartDetails(int id)
         {
             Cart cart = await _dbContext
@@ -49,6 +49,15 @@ namespace ShoppingCart.Services
             return _mapper.Map<CartDetails>(cart);
         }
 
+        public async Task CancelCart(int cartId)
+        {
+            Cart cart = await _dbContext.Carts.SingleOrDefaultAsync(cart => cart.Id == cartId);
+            if (cart == null)
+                throw new EntityNotFoundException(cartId);
+
+            cart.Status = CartStatus.Cancelled;
+            await _dbContext.SaveChangesAsync();
+        }
 
     }
 }

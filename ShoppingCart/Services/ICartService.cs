@@ -7,6 +7,7 @@ namespace ShoppingCart.Services
     {
         Task<CartDetails> GetCartDetails(int id);
         Task AddItemToCart(CartItemRequest cartItemRequest);
+        Task CancelCart(int cartId);
 
     }
 }
