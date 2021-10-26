@@ -11,6 +11,7 @@ namespace ShoppingCart.AutoMapper
             CreateMap<CartItem, CartItemShortDetails>();
             CreateMap<Cart, CartDetails>();
             CreateMap<CartItemRequest, CartItem>();
+            CreateMap<CartItem, CartItemDetails>();
         }
     }
 }
