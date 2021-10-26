@@ -54,5 +54,12 @@ namespace ShoppingCart.Controllers
             CartItemDetails cartItem = await _cartService.GetCartItemDetails(id);
             return Ok(cartItem);
         }
+
+        [HttpPost("{id}/submit")]
+        public async Task<ActionResult> SubmitCart(int id)
+        {
+            await _cartService.SubmitCart(id);
+            return NoContent();
+        }
     }
 }

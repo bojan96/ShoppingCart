@@ -38,6 +38,7 @@ namespace ShoppingCart
             services.AddDbContext<ShoppingCartDbContext>(options => options.UseMySQL(Configuration.GetConnectionString("Database")));
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddTransient<ICartService, CartService>();
+            services.AddTransient<ICartProcessorService, CartProcessorService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -10,5 +10,6 @@ namespace ShoppingCart.Services
         Task RemoveItemFromCart(int cartItemId);
         Task CancelCart(int cartId);
         Task<CartItemDetails> GetCartItemDetails(int cartItemid);
+        Task SubmitCart(int id);
     }
 }
