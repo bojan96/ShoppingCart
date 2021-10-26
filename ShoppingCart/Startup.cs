@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using ShoppingCart.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +37,7 @@ namespace ShoppingCart
             });
             services.AddDbContext<ShoppingCartDbContext>(options => options.UseMySQL(Configuration.GetConnectionString("Database")));
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            services.AddTransient<ICartService, CartService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
