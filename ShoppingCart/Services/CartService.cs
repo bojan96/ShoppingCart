@@ -18,7 +18,6 @@ namespace ShoppingCart.Services
         public CartService(IMapper mapper, ShoppingCartDbContext dbContext, ICartProcessorService cartProcessService)
             => (_mapper, _dbContext, _cartProcessService) = (mapper, dbContext, cartProcessService);
        
-
         public async Task AddItemToCart(int id, CartItemRequest cartItemRequest)
         {
             CartItem item = _mapper.Map<CartItem>(cartItemRequest);
@@ -47,11 +46,11 @@ namespace ShoppingCart.Services
             return _mapper.Map<CartDetails>(cart);
         }
 
-        public async Task CancelCart(int cartId)
+        public async Task CancelCart(int id)
         {
-            Cart cart = await _dbContext.Carts.SingleOrDefaultAsync(cart => cart.Id == cartId);
+            Cart cart = await _dbContext.Carts.SingleOrDefaultAsync(cart => cart.Id == id);
             if (cart == null)
-                throw new EntityNotFoundException(cartId);
+                throw new EntityNotFoundException(id);
 
             cart.Status = CartStatus.Cancelled;
             await _dbContext.SaveChangesAsync();
