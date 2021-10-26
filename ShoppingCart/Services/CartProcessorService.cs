@@ -18,7 +18,7 @@ namespace ShoppingCart.Services
 
             // 20% chance that processing fails
             if (random.NextDouble() < 0.2)
-                throw new CartProcessFailedException("Cart processing failed");
+                throw new CartProcessFailedException("Cart processing service unavailable");
         }
 
         private async Task Process(CartDetails details)
