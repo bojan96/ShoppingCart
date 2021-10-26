@@ -67,5 +67,14 @@ namespace ShoppingCart.Services
             _dbContext.CartItems.Remove(item);
             await _dbContext.SaveChangesAsync();
         }
+
+        public async Task<CartItemDetails> GetCartItemDetails(int cartItemId)
+        {
+            CartItem cartItem = await _dbContext.CartItems.SingleOrDefaultAsync(id => id.Id == cartItemId);
+            if (cartItem == null)
+                throw new EntityNotFoundException(cartItemId);
+
+            return _mapper.Map<CartItemDetails>(cartItem);
+        }
     }
 }

@@ -47,5 +47,12 @@ namespace ShoppingCart.Controllers
             await _cartService.CancelCart(id);
             return NoContent();
         }
+
+        [HttpGet("item/{id}")]
+        public async Task<ActionResult> GetCartItemDetails(int id)
+        {
+            CartItemDetails cartItem = await _cartService.GetCartItemDetails(id);
+            return Ok(cartItem);
+        }
     }
 }
