@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ShoppingCart.Filters;
 using ShoppingCart.Models;
 using ShoppingCart.Services;
 using System;
@@ -11,6 +12,7 @@ namespace ShoppingCart.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [TypeFilter(typeof(ServiceExceptionFilter))]
     public class CartController : ControllerBase
     {
         private readonly ICartService _cartService;
