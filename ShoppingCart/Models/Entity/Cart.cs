@@ -10,7 +10,8 @@ namespace ShoppingCart.Models.Entity
         public CartStatus Status { get; set; }
         public List<CartItem> CartItems { get; set; } = new List<CartItem>();
         public DateTime TimeCreated { get; set; }
-        public DateTime TimeUpdated { get; set; }
+        // Null value means it was never updated
+        public DateTime? TimeUpdated { get; set; }
         public string CreatedBy { get; set; }
     }
 }
