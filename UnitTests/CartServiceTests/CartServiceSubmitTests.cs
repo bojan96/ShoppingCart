@@ -14,12 +14,12 @@ using Xunit;
 
 namespace UnitTests.CartServiceTests
 {
-    public class CartServiceSubmitTests : IDisposable
+    public partial class CartServiceTests : IDisposable
     {
         private readonly IMapper _mapper;
         private readonly ShoppingCartDbContext _dbContext;
 
-        public CartServiceSubmitTests()
+        public CartServiceTests()
         {
             _mapper = new MapperConfiguration(config => config.AddProfile<CartMappingProfile>())
                 .CreateMapper();
