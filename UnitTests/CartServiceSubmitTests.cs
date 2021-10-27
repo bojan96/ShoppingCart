@@ -41,13 +41,14 @@ namespace UnitTests
             ShoppingCartDbContext context = new(options);
             context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
+            DbSetup.Seed(context);
             return context;
         }
 
         [Fact]
         public async Task ProcessorServiceUnavaliable()
         {
-            const int cartId = 1;
+            const int cartId = DbSetup.DRAFT_CART_ID;
             Mock<ICartProcessorService> cartProcessorMock = new();
             cartProcessorMock
                 .Setup(service => service.ProcessCart(It.IsAny<CartDetails>()))
@@ -65,14 +66,6 @@ namespace UnitTests
         [Fact]
         public async Task CartAlreadySubmitted()
         {
-            const int cartId = 100;
-            await _dbContext.Carts.AddAsync(new Cart { 
-                Id = cartId, 
-                Status = CartStatus.Submitted, 
-                CreatedBy = "user", 
-                TimeCreated = DateTime.UtcNow });
-            await _dbContext.SaveChangesAsync();
-
             Mock<ICartProcessorService> cartProcessorMock = new();
             cartProcessorMock
                 .Setup(service => service.ProcessCart(It.IsAny<CartDetails>()))
@@ -81,13 +74,13 @@ namespace UnitTests
             ICartService service = new CartService(_mapper, _dbContext, cartProcessorMock.Object);
 
             await Assert.ThrowsAsync<CartAlreadySubmittedException>(async () 
-                => await service.SubmitCart(cartId));
+                => await service.SubmitCart(DbSetup.SUBMITTED_CART_ID));
         }
 
         [Fact]
         public async Task CartDoesNotExists()
         {
-            const int cartId = 100;
+            const int cartId = 2000;
             Mock<ICartProcessorService> cartProcessorMock = new();
             cartProcessorMock
                 .Setup(service => service.ProcessCart(It.IsAny<CartDetails>()))
