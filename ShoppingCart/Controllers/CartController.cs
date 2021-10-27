@@ -8,6 +8,7 @@ using ShoppingCart.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace ShoppingCart.Controllers
@@ -35,7 +36,8 @@ namespace ShoppingCart.Controllers
         [Authorize(Policy = AuthPolicies.STANDARD)]
         public async Task<ActionResult> AddItemToCart(int id, [FromBody]CartItemRequest item)
         {
-            await _cartService.AddItemToCart(id, item);
+            string userId = User.Claims.First(cl => cl.Type == ClaimTypes.NameIdentifier).Value;
+            await _cartService.AddItemToCart(id, userId, item);
             return NoContent();
         }
 

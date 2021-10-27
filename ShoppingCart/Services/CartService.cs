@@ -18,10 +18,10 @@ namespace ShoppingCart.Services
         public CartService(IMapper mapper, ShoppingCartDbContext dbContext, ICartProcessorService cartProcessService)
             => (_mapper, _dbContext, _cartProcessService) = (mapper, dbContext, cartProcessService);
        
-        public async Task AddItemToCart(int id, CartItemRequest cartItemRequest)
+        public async Task AddItemToCart(int id, string user, CartItemRequest cartItemRequest)
         {
             CartItem item = _mapper.Map<CartItem>(cartItemRequest);
-            item.CreatedBy = "placeholder";
+            item.CreatedBy = user;
             item.TimeCreated = DateTime.UtcNow;
 
             Cart cart = await _dbContext

@@ -81,7 +81,7 @@ namespace UnitTests.CartServiceTests
                 => await _dbContext.CartItems.Where(item => item.CartId == DbSetup.DRAFT_CART_ID).CountAsync();
             int expectedItemCount = 1 + await GetCartItemCount();
             ICartService service = new CartService(_mapper, _dbContext, GetAvailableProcessorService());
-            await service.AddItemToCart(DbSetup.DRAFT_CART_ID, new CartItemRequest
+            await service.AddItemToCart(DbSetup.DRAFT_CART_ID, "userId", new CartItemRequest
             {
                 Name = "Test name",
                 Description = "Test description"
@@ -96,7 +96,7 @@ namespace UnitTests.CartServiceTests
             ICartService service = new CartService(_mapper, _dbContext, GetAvailableProcessorService());
 
             await Assert.ThrowsAsync<EntityNotFoundException>(async () 
-                => await service.AddItemToCart(DbSetup.NON_EXISTENT_CART_ID, 
+                => await service.AddItemToCart(DbSetup.NON_EXISTENT_CART_ID, "userId",
                 new CartItemRequest
                 {
                     Name = "Test name",
