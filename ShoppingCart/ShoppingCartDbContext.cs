@@ -28,11 +28,19 @@ namespace ShoppingCart
             {
                 Id = 1,
                 Status = CartStatus.Draft,
-                CreatedBy = "test",
+                CreatedBy = "auth0|617946b7ed3a290068b82013",
                 TimeCreated = createTime
             });
 
-            IEnumerable<CartItem> items = Enumerable
+            modelBuilder.Entity<Cart>().HasData(new Cart
+            {
+                Id = 2,
+                Status = CartStatus.Submitted,
+                CreatedBy = "auth0|6179475e1c278900683507fd",
+                TimeCreated = createTime
+            });
+
+            IEnumerable<CartItem> draftItems = Enumerable
                 .Range(1, 5)
                 .Select(count => new CartItem
             {
@@ -41,10 +49,23 @@ namespace ShoppingCart
                 TimeCreated = createTime.AddDays(count),
                 Name = $"Name{count}",
                 Description = $"Description{count}",
-                CreatedBy = "test"
-            });
+                CreatedBy = "auth0|617946b7ed3a290068b82013"
+                });
 
-            modelBuilder.Entity<CartItem>().HasData(items);
+            IEnumerable<CartItem> submittedItems = Enumerable
+                .Range(6, 5)
+                .Select(count => new CartItem
+                {
+                    Id = count,
+                    CartId = 2,
+                    TimeCreated = createTime.AddDays(count),
+                    Name = $"Name{count}",
+                    Description = $"Description{count}",
+                    CreatedBy = "auth0|6179475e1c278900683507fd"
+                });
+
+            modelBuilder.Entity<CartItem>().HasData(draftItems);
+            modelBuilder.Entity<CartItem>().HasData(submittedItems);
         }
 
     }

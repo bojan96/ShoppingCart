@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShoppingCart;
 
 namespace ShoppingCart.Migrations
 {
     [DbContext(typeof(ShoppingCartDbContext))]
-    partial class ShoppingCartDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211027142918_AddSubmittedCartItems")]
+    partial class AddSubmittedCartItems
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,14 +45,14 @@ namespace ShoppingCart.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedBy = "auth0|617946b7ed3a290068b82013",
+                            CreatedBy = "user1",
                             Status = 0,
                             TimeCreated = new DateTime(2021, 1, 1, 10, 10, 10, 0, DateTimeKind.Utc)
                         },
                         new
                         {
                             Id = 2,
-                            CreatedBy = "auth0|6179475e1c278900683507fd",
+                            CreatedBy = "user2",
                             Status = 2,
                             TimeCreated = new DateTime(2021, 1, 1, 10, 10, 10, 0, DateTimeKind.Utc)
                         });
@@ -91,7 +93,7 @@ namespace ShoppingCart.Migrations
                         {
                             Id = 1,
                             CartId = 1,
-                            CreatedBy = "auth0|617946b7ed3a290068b82013",
+                            CreatedBy = "test",
                             Description = "Description1",
                             Name = "Name1",
                             TimeCreated = new DateTime(2021, 1, 2, 10, 10, 10, 0, DateTimeKind.Utc)
@@ -100,7 +102,7 @@ namespace ShoppingCart.Migrations
                         {
                             Id = 2,
                             CartId = 1,
-                            CreatedBy = "auth0|617946b7ed3a290068b82013",
+                            CreatedBy = "test",
                             Description = "Description2",
                             Name = "Name2",
                             TimeCreated = new DateTime(2021, 1, 3, 10, 10, 10, 0, DateTimeKind.Utc)
@@ -109,7 +111,7 @@ namespace ShoppingCart.Migrations
                         {
                             Id = 3,
                             CartId = 1,
-                            CreatedBy = "auth0|617946b7ed3a290068b82013",
+                            CreatedBy = "test",
                             Description = "Description3",
                             Name = "Name3",
                             TimeCreated = new DateTime(2021, 1, 4, 10, 10, 10, 0, DateTimeKind.Utc)
@@ -118,7 +120,7 @@ namespace ShoppingCart.Migrations
                         {
                             Id = 4,
                             CartId = 1,
-                            CreatedBy = "auth0|617946b7ed3a290068b82013",
+                            CreatedBy = "test",
                             Description = "Description4",
                             Name = "Name4",
                             TimeCreated = new DateTime(2021, 1, 5, 10, 10, 10, 0, DateTimeKind.Utc)
@@ -127,7 +129,7 @@ namespace ShoppingCart.Migrations
                         {
                             Id = 5,
                             CartId = 1,
-                            CreatedBy = "auth0|617946b7ed3a290068b82013",
+                            CreatedBy = "test",
                             Description = "Description5",
                             Name = "Name5",
                             TimeCreated = new DateTime(2021, 1, 6, 10, 10, 10, 0, DateTimeKind.Utc)
@@ -136,7 +138,7 @@ namespace ShoppingCart.Migrations
                         {
                             Id = 6,
                             CartId = 2,
-                            CreatedBy = "auth0|6179475e1c278900683507fd",
+                            CreatedBy = "test",
                             Description = "Description6",
                             Name = "Name6",
                             TimeCreated = new DateTime(2021, 1, 7, 10, 10, 10, 0, DateTimeKind.Utc)
@@ -145,7 +147,7 @@ namespace ShoppingCart.Migrations
                         {
                             Id = 7,
                             CartId = 2,
-                            CreatedBy = "auth0|6179475e1c278900683507fd",
+                            CreatedBy = "test",
                             Description = "Description7",
                             Name = "Name7",
                             TimeCreated = new DateTime(2021, 1, 8, 10, 10, 10, 0, DateTimeKind.Utc)
@@ -154,7 +156,7 @@ namespace ShoppingCart.Migrations
                         {
                             Id = 8,
                             CartId = 2,
-                            CreatedBy = "auth0|6179475e1c278900683507fd",
+                            CreatedBy = "test",
                             Description = "Description8",
                             Name = "Name8",
                             TimeCreated = new DateTime(2021, 1, 9, 10, 10, 10, 0, DateTimeKind.Utc)
@@ -163,7 +165,7 @@ namespace ShoppingCart.Migrations
                         {
                             Id = 9,
                             CartId = 2,
-                            CreatedBy = "auth0|6179475e1c278900683507fd",
+                            CreatedBy = "test",
                             Description = "Description9",
                             Name = "Name9",
                             TimeCreated = new DateTime(2021, 1, 10, 10, 10, 10, 0, DateTimeKind.Utc)
@@ -172,7 +174,7 @@ namespace ShoppingCart.Migrations
                         {
                             Id = 10,
                             CartId = 2,
-                            CreatedBy = "auth0|6179475e1c278900683507fd",
+                            CreatedBy = "test",
                             Description = "Description10",
                             Name = "Name10",
                             TimeCreated = new DateTime(2021, 1, 11, 10, 10, 10, 0, DateTimeKind.Utc)
