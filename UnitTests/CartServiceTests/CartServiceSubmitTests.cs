@@ -1,14 +1,10 @@
-using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Moq;
-using ShoppingCart;
-using ShoppingCart.AutoMapper;
 using ShoppingCart.Exceptions;
 using ShoppingCart.Models;
 using ShoppingCart.Models.Entity;
 using ShoppingCart.Models.Enums;
 using ShoppingCart.Services;
-using System;
 using System.Threading.Tasks;
 using Xunit;
 

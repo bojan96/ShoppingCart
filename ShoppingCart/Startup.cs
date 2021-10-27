@@ -1,21 +1,14 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using ShoppingCart.Authentication;
 using ShoppingCart.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 
 namespace ShoppingCart
 {
@@ -37,7 +30,8 @@ namespace ShoppingCart
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ShoppingCart", Version = "v1" });
             });
-            services.AddDbContext<ShoppingCartDbContext>(options => options.UseMySQL(Configuration.GetConnectionString("Database")));
+            services.AddDbContext<ShoppingCartDbContext>(options 
+                => options.UseMySQL(Configuration.GetConnectionString("Database")));
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddTransient<ICartService, CartService>();
             services.AddTransient<ICartProcessorService, CartProcessorService>();
@@ -48,8 +42,8 @@ namespace ShoppingCart
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(options =>
             {
-                options.Authority = "https://dev-q8h0n7kc.eu.auth0.com/";
-                options.Audience = "https://shoppingcart.com";
+                options.Authority = Configuration["Auth0:Authority"];
+                options.Audience = Configuration["Auth0:Audience"];
             });
 
             services.AddAuthorization(options =>
