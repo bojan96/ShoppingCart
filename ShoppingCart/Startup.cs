@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -8,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using ShoppingCart.Authentication;
 using ShoppingCart.Services;
 using System;
 using System.Collections.Generic;
@@ -39,6 +41,25 @@ namespace ShoppingCart
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddTransient<ICartService, CartService>();
             services.AddTransient<ICartProcessorService, CartProcessorService>();
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.Authority = "https://dev-q8h0n7kc.eu.auth0.com/";
+                options.Audience = "https://shoppingcart.com";
+            });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(AuthPolicies.STANDARD, policy => 
+                policy.RequireClaim("permissions", "read")
+                .RequireClaim("permissions", "write"));
+                options.AddPolicy(AuthPolicies.VIEWER, 
+                    policy => policy.RequireClaim("permissions", "read"));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,6 +76,7 @@ namespace ShoppingCart
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

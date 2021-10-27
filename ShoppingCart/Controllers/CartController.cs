@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ShoppingCart.Authentication;
 using ShoppingCart.Filters;
 using ShoppingCart.Models;
 using ShoppingCart.Services;
@@ -18,11 +20,11 @@ namespace ShoppingCart.Controllers
         private readonly ICartService _cartService;
 
         public CartController(ICartService cartService)
-        {
-            _cartService = cartService;
-        }
+            => _cartService = cartService;
+        
 
         [HttpGet("{id}")]
+        [Authorize(Policy = AuthPolicies.VIEWER)]
         public async Task<ActionResult<CartDetails>> GetCartOverview(int id)
         {
             CartDetails details = await _cartService.GetCartDetails(id);
@@ -30,6 +32,7 @@ namespace ShoppingCart.Controllers
         }
 
         [HttpPost("{id}/item")]
+        [Authorize(Policy = AuthPolicies.STANDARD)]
         public async Task<ActionResult> AddItemToCart(int id, [FromBody]CartItemRequest item)
         {
             await _cartService.AddItemToCart(id, item);
@@ -37,6 +40,7 @@ namespace ShoppingCart.Controllers
         }
 
         [HttpDelete("item/{id}")]
+        [Authorize(Policy = AuthPolicies.STANDARD)]
         public async Task<ActionResult> RemoveItemFromCart(int id)
         {
             await _cartService.RemoveItemFromCart(id);
@@ -44,6 +48,7 @@ namespace ShoppingCart.Controllers
         }
 
         [HttpPost("{id}/cancel")]
+        [Authorize(Policy = AuthPolicies.STANDARD)]
         public async Task<ActionResult> CancelCart(int id)
         {
             await _cartService.CancelCart(id);
@@ -51,6 +56,7 @@ namespace ShoppingCart.Controllers
         }
 
         [HttpGet("item/{id}")]
+        [Authorize(Policy = AuthPolicies.VIEWER)]
         public async Task<ActionResult> GetCartItemDetails(int id)
         {
             CartItemDetails cartItem = await _cartService.GetCartItemDetails(id);
@@ -58,6 +64,7 @@ namespace ShoppingCart.Controllers
         }
 
         [HttpPost("{id}/submit")]
+        [Authorize(Policy = AuthPolicies.STANDARD)]
         public async Task<ActionResult> SubmitCart(int id)
         {
             await _cartService.SubmitCart(id);
