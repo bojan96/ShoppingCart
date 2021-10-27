@@ -11,6 +11,7 @@ namespace UnitTests
     {
         public const int SUBMITTED_CART_ID = 100;
         public const int DRAFT_CART_ID = 101;
+        public const int CART_ITEM_ID = 100;
 
         public static void Seed(ShoppingCartDbContext context)
         {
@@ -27,11 +28,11 @@ namespace UnitTests
                 Status = CartStatus.Draft,
                 CreatedBy = "user",
                 TimeCreated = DateTime.UtcNow,
-                CartItems = Enumerable.Range(1, 2)
+                CartItems = Enumerable.Range(0, 2)
                 .Select(i => new CartItem
                 {
                     // Avoid same ids as data created in migrations
-                    Id = 100 + i,
+                    Id = CART_ITEM_ID + i,
                     CartId = DRAFT_CART_ID,
                     CreatedBy = "user",
                     Description = $"Description{i}",
