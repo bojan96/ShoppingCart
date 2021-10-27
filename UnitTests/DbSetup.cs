@@ -2,6 +2,8 @@
 using ShoppingCart.Models.Entity;
 using ShoppingCart.Models.Enums;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace UnitTests
 {
@@ -24,7 +26,18 @@ namespace UnitTests
                 Id = DRAFT_CART_ID,
                 Status = CartStatus.Draft,
                 CreatedBy = "user",
-                TimeCreated = DateTime.UtcNow
+                TimeCreated = DateTime.UtcNow,
+                CartItems = Enumerable.Range(1, 2)
+                .Select(i => new CartItem
+                {
+                    // Avoid same ids as data created in migrations
+                    Id = 100 + i,
+                    CartId = DRAFT_CART_ID,
+                    CreatedBy = "user",
+                    Description = $"Description{i}",
+                    Name = $"Name{i}",
+                    TimeCreated = DateTime.UtcNow
+                }).ToList()
             });
 
             context.SaveChanges();
