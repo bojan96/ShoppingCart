@@ -52,6 +52,9 @@ namespace ShoppingCart.Services
             if (cart == null)
                 throw new EntityNotFoundException(id);
 
+            if (cart.Status == CartStatus.Submitted)
+                throw new CartAlreadySubmittedException($"Cart with id {id} already submitted");
+
             cart.Status = CartStatus.Cancelled;
             await _dbContext.SaveChangesAsync();
         }
