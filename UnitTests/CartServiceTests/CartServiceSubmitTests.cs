@@ -12,7 +12,7 @@ using System;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace UnitTests
+namespace UnitTests.CartServiceTests
 {
     public class CartServiceSubmitTests : IDisposable
     {
@@ -37,12 +37,33 @@ namespace UnitTests
                 .UseInMemoryDatabase("test")
                 .Options;
 
-            // Avoid using seed data from migrations
             ShoppingCartDbContext context = new(options);
             context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
+            // Avoid using seed data from migrations
             DbSetup.Seed(context);
             return context;
+        }
+
+        [Fact]
+        public async Task SubmitCartSuccesfully()
+        {
+            Mock<ICartProcessorService> cartProcessorMock = new();
+            cartProcessorMock
+                .Setup(service => service.ProcessCart(It.IsAny<CartDetails>()))
+                .Returns(Task.CompletedTask);
+
+            ICartService service = new CartService(_mapper, _dbContext, cartProcessorMock.Object);
+
+            await service.SubmitCart(DbSetup.DRAFT_CART_ID);
+            Cart cart = await _dbContext.Carts.SingleAsync(cart => cart.Id == DbSetup.DRAFT_CART_ID);
+
+            Assert.Equal(CartStatus.Submitted, cart.Status);
+            cartProcessorMock.Verify(cartProcessor => cartProcessor.ProcessCart(It.Is<CartDetails>(details => 
+            details.Id == cart.Id && 
+            details.TimeCreated == cart.TimeCreated && 
+            details.TimeUpdated == cart.TimeUpdated && 
+            details.CreatedBy == cart.CreatedBy)), Times.Once);
         }
 
         [Fact]
@@ -75,6 +96,7 @@ namespace UnitTests
 
             await Assert.ThrowsAsync<CartAlreadySubmittedException>(async () 
                 => await service.SubmitCart(DbSetup.SUBMITTED_CART_ID));
+            cartProcessorMock.Verify(cartProcessor => cartProcessor.ProcessCart(It.IsAny<CartDetails>()), Times.Never);
         }
 
         [Fact]
@@ -90,6 +112,7 @@ namespace UnitTests
 
             await Assert.ThrowsAsync<EntityNotFoundException>(async ()
                 => await service.SubmitCart(cartId));
+            cartProcessorMock.Verify(cartProcessor => cartProcessor.ProcessCart(It.IsAny<CartDetails>()), Times.Never);
         }
 
     }
