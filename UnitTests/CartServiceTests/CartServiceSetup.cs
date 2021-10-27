@@ -1,8 +1,12 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Moq;
 using ShoppingCart;
 using ShoppingCart.AutoMapper;
+using ShoppingCart.Models;
+using ShoppingCart.Services;
 using System;
+using System.Threading.Tasks;
 
 namespace UnitTests.CartServiceTests
 {
@@ -35,6 +39,20 @@ namespace UnitTests.CartServiceTests
             // Avoid using seed data from migrations
             DbSetup.Seed(context);
             return context;
+        }
+
+        /// <summary>
+        /// This method always returns available service
+        /// </summary>
+        /// <returns>Available cart processor service</returns>
+        private ICartProcessorService GetAvailableProcessorService()
+        {
+            Mock<ICartProcessorService> cartProcessorMock = new();
+            cartProcessorMock
+                .Setup(service => service.ProcessCart(It.IsAny<CartDetails>()))
+                .Returns(Task.CompletedTask);
+
+            return cartProcessorMock.Object;
         }
     }
 }
