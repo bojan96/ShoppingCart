@@ -73,7 +73,7 @@ namespace UnitTests.CartServiceTests
         [Fact]
         public async Task SubmitCartDoesNotExists()
         {
-            const int cartId = 2000;
+            const int cartId = DbSetup.NON_EXISTENT_CART_ID;
             Mock<ICartProcessorService> cartProcessorMock = new();
             cartProcessorMock
                 .Setup(service => service.ProcessCart(It.IsAny<CartDetails>()))
