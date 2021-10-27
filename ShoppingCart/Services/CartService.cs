@@ -77,24 +77,17 @@ namespace ShoppingCart.Services
 
         public async Task SubmitCart(int id)
         {
-            try
-            {
-                Cart cart = await _dbContext.Carts.SingleOrDefaultAsync(cart => cart.Id == id);
-                if (cart == null)
-                    throw new EntityNotFoundException(id);
+            Cart cart = await _dbContext.Carts.SingleOrDefaultAsync(cart => cart.Id == id);
+            if (cart == null)
+                throw new EntityNotFoundException(id);
 
-                if (cart.Status == CartStatus.Submitted)
-                    throw new CartSubmitFailedException("Cart already submitted");
+            if (cart.Status == CartStatus.Submitted)
+                throw new CartAlreadySubmittedException("Cart already submitted");
 
-                CartDetails cartDetails = _mapper.Map<CartDetails>(cart);
-                await _cartProcessService.ProcessCart(cartDetails);
-                cart.Status = CartStatus.Submitted;
-                await _dbContext.SaveChangesAsync();
-            }
-            catch(CartProcessFailedException ex)
-            {
-                throw new CartSubmitFailedException("Cart submission failed", ex);
-            }
+            CartDetails cartDetails = _mapper.Map<CartDetails>(cart);
+            await _cartProcessService.ProcessCart(cartDetails);
+            cart.Status = CartStatus.Submitted;
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

@@ -14,8 +14,11 @@ namespace ShoppingCart.Filters
                 case EntityNotFoundException ex:
                     context.Result = new NotFoundObjectResult(ex.Message);
                     break;
-                case CartSubmitFailedException ex:
+                case CartProcessFailedException ex:
                     context.Result = new ObjectResult(ex.Message) { StatusCode = StatusCodes.Status500InternalServerError };
+                    break;
+                case CartAlreadySubmittedException ex:
+                    context.Result = new ObjectResult(ex.Message) { StatusCode = StatusCodes.Status400BadRequest };
                     break;
             }
         }
