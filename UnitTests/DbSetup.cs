@@ -12,6 +12,8 @@ namespace UnitTests
         public const int SUBMITTED_CART_ID = 100;
         public const int DRAFT_CART_ID = 101;
         public const int CART_ITEM_ID = 100;
+        public const int NON_EXISTENT_CART_ITEM_ID = 2000;
+        public const int NON_EXISTENT_CART_ID = 2000;
 
         public static void Seed(ShoppingCartDbContext context)
         {
